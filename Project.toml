@@ -1,0 +1,13 @@
+name = "BudgetConstraints"
+uuid = "51aacf4b-43e8-45f9-b960-ce5126c2a956"
+authors = ["Graham Stark"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
