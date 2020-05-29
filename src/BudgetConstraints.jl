@@ -3,7 +3,7 @@ module BudgetConstraints
 using Parameters
 
 export BCSettings, BudgetConstraint, annotate_bc, pointstoarray
-export makebc
+export makebc,Point2D, censor, pointstoarray
 
 """
 A piecewise_linear_generator. Used for generating budget constraints used in
@@ -24,7 +24,7 @@ end
 
 const Line2D = Line2DG{Float64}
 
-const BudgetConstraint = AbstractArray{Point2DG,1}
+const BudgetConstraint = Array{Point2DG,1}
 const PointsSet = Set{Point2DG}
 
 const VERTICAL   = 9_999_999_999.9999;
