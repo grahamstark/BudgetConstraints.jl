@@ -30,6 +30,7 @@ The routine is controlled by a `BCSettings` struct; there is a `DEFAULT_SETTINGS
 
 ```@autodocs
 Modules = [BudgetConstraints]
+[:constant, :type, :function]
 ```
 
 ## Problems/TODO
