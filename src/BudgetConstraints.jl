@@ -205,7 +205,7 @@ end
 function generate!(
     bc       :: PointsSet,
     data     :: Dict,
-    getnet,  :: Function,
+    getnet   :: Function,
     depth    :: Integer,
     startpos :: Float64,
     endpos   :: Float64,
