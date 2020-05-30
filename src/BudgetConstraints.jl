@@ -275,7 +275,7 @@ end
 """
 This takes a budget constraint and produces
 a named tuple of METRs and Tax Credits for each one.
-(really just the slope and intercept at that point).
+(really just 1 minus the slope and the intercept at that point).
 Useful for annotating graphs and tables.
 """
 function annotate_bc( bcpoints :: BudgetConstraint ) :: AbstractArray{NamedTuple}
