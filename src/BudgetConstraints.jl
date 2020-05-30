@@ -82,7 +82,6 @@ end
 function findintersection( line_1::Line2D, line_2 :: Line2D ) :: Point2D
     x :: Float64 = 0.0
     y :: Float64 = 0.0
-    # println( "line_1.b=$(line_1.b) line_2.b=$(line_2.b)")
     if !( line_1.b ≈ line_2.b )
         x = (line_2.a - line_1.a) / (line_1.b - line_2.b);
         y = line_1.a + (x * line_1.b );
@@ -211,7 +210,6 @@ function generate!(
     endpos   :: Float64,
     settings :: BCSettings ) :: Integer
     diff = abs( startpos - endpos )
-    # println( "generate entered depth $depth")
     tolerance = settings.tolerance
     if( diff < settings.tolerance )
         return depth
@@ -261,14 +259,8 @@ function makebc( data :: Dict, getnet::Function, settings :: BCSettings = DEFAUL
     bc = BudgetConstraint()
     ps = PointsSet()
     depth = 0
-    # try
-        depth = generate!( ps, data, getnet, depth, settings.mingross, settings.maxgross, settings )
-        bc = censor( ps, settings.round_output )
-    # catch e
-        ## FIXME print a fuller stack trace here
-        # println( "failed! $e")
-    #    println(stacktrace())
-    # end
+    depth = generate!( ps, data, getnet, depth, settings.mingross, settings.maxgross, settings )
+    bc = censor( ps, settings.round_output )
     bc;
 end
 
