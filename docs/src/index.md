@@ -2,14 +2,7 @@
 CurrentModule = BudgetConstraints
 ```
 
-```@index
-```
-
-
-
-# BudgetConstraints
-
-# Piecewise Linear Budget Constraints
+#Piecewise Linear Budget Constraints
 
 This generates a complete two-dimensional budget constraints for some unit
 (person, benefit-unit, household, etc.) for some tax-benefit system. That is, a
@@ -29,6 +22,9 @@ Define a function that returns the net income for some gross value - this could 
  The call to `makebc` then generates the budget constraint using `getnet`. If successful this returns a BudgetConstraint array, which is a collection of `x,y` points describing all the points where the budget constraint has a change of slope, where `x` is the gross value and `y` the net.
 
 The routine is controlled by a `BCSettings` struct; there is a `DEFAULT_SETTINGS` constant version of this which I suggest you don't change, apart from perhaps the upper and lower x-bounds of the graph.
+
+```@index
+```
 
 ## Functions and Data Structures
 
