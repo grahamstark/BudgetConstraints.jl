@@ -1,6 +1,9 @@
 using BudgetConstraints
-using MiniTB
+
 using Test
+
+include("mini_tb_sys.jl")
+
 
 # @test size( ps ) == 4
 function test_getnet( data :: Dict, gross :: Float64 ) :: Float64
@@ -26,7 +29,6 @@ end
 @testset "BudgetConstraints.jl" begin
 
     using Test
-    using MiniTB
 
     # @testset begin
      p1 = Point2D( 1.011,2.011)
