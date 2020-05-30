@@ -1,5 +1,3 @@
-# BudgetConstraints
-
 # Piecewise Linear Budget Constraints
 
 This package can be used to generate a complete two-dimensional budget constraint for some unit
