@@ -7,9 +7,12 @@ export makebc,Point2D, censor, pointstoarray
 
 """
 A piecewise_linear_generator. Used for generating budget constraints used in
-conventional microeconomics. See Stark and Duncan 1992 in the biblio.
+conventional microeconomics. See Stark and Duncan 1992.
 """
 
+"""
+A point; in our case y is net income (or something) and x gross.
+"""
 struct Point2DG{T<:Real}
       x::T
       y::T
@@ -17,6 +20,9 @@ end
 
 const Point2D = Point2DG{Float64}
 
+"""
+a line between 2 points; used internally
+"""
 struct Line2DG{T<:Real}
       a::T
       b::T
@@ -24,6 +30,10 @@ end
 
 const Line2D = Line2DG{Float64}
 
+"""
+A budget constraint is then just an ordered list
+of points.
+"""
 const BudgetConstraint = Array{Point2DG,1}
 const PointsSet = Set{Point2DG}
 
@@ -36,6 +46,10 @@ const MIN_INCOME = 0.0;
 
 const ROUND_OUTPUT = false;
 
+"""
+settings for the calclation. Calculate over
+`mingross` to `maxgross`.
+"""
 @with_kw struct BCSettings
     mingross :: Float64 = 0.0
     maxgross :: Float64 = MAX_INCOME
@@ -45,6 +59,9 @@ const ROUND_OUTPUT = false;
     maxdepth :: Integer  = MAX_DEPTH
 end
 
+"""
+The tolerances here generally work quite well.
+"""
 const DEFAULT_SETTINGS = BCSettings( MIN_INCOME, MAX_INCOME, INCREMENT, TOLERANCE, true, MAX_DEPTH )
 
 
@@ -150,6 +167,9 @@ function toarray( ps :: PointsSet ) :: BudgetConstraint
     bc
 end
 
+"""
+Attempt to remove near duplicate points and ensure all points ordered in ascending gross income.
+"""
 function censor( ps :: PointsSet, round :: Bool=true ) :: BudgetConstraint
     bc = toarray( ps )
     sort!( bc )
@@ -185,7 +205,7 @@ end
 function generate!(
     bc       :: PointsSet,
     data     :: Dict,
-    getnet,  # TODO give this a signature ( Float64 ) :: Float64
+    getnet,  :: Function,
     depth    :: Integer,
     startpos :: Float64,
     endpos   :: Float64,
@@ -234,7 +254,8 @@ end
 
 """
 Make a budget constraint using function `getnet` to extract net incomes and `settings` (see above on this struct).
-getnet should be a function of the form `net=f(gross)`. See the testcase for an example.
+`data` should hold whatever your `getnet` function needs (parameters, a househols, etc.)
+`getnet` should be a function of the form `net=f(data, gross)`. See the testcase for an example.
 """
 function makebc( data :: Dict, getnet::Function, settings :: BCSettings = DEFAULT_SETTINGS ) :: BudgetConstraint
     bc = BudgetConstraint()
@@ -251,7 +272,12 @@ function makebc( data :: Dict, getnet::Function, settings :: BCSettings = DEFAUL
     bc;
 end
 
-# a list of taxcredits and marginal rates
+"""
+This takes a budget constraint and produces
+a named tuple of METRs and Tax Credits for each one.
+(really just the slope and intercept at that point).
+Useful for annotating graphs and tables.
+"""
 function annotate_bc( bcpoints :: BudgetConstraint ) :: AbstractArray{NamedTuple}
     np = size( bcpoints )[1]
     out = []
@@ -263,6 +289,10 @@ function annotate_bc( bcpoints :: BudgetConstraint ) :: AbstractArray{NamedTuple
     out
 end
 
+"""
+Covert a list of points into x an y vectors. Some plotters
+may need this.
+"""
 function pointstoarray( bc :: BudgetConstraint ) :: Array{Float64,2}
     sz = size( bc, 1 )
     pts = zeros( Float64, sz, 2 )
