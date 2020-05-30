@@ -2,7 +2,7 @@
 CurrentModule = BudgetConstraints
 ```
 
-#Piecewise Linear Budget Constraints
+# Piecewise Linear Budget Constraints
 
 This generates a complete two-dimensional budget constraints for some unit
 (person, benefit-unit, household, etc.) for some tax-benefit system. That is, a
