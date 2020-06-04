@@ -11,6 +11,8 @@ list points describing the combinations of net income that the unit would get fo
 See: Duncan, Alan, and Graham Stark. "A Recursive Algorithm to Generate Piecewise Linear Budget Contraints" IFS Working Paper 2000/01 May 2, 2000] [https://doi.org/10.1920/wp.ifs.2000.0011](https://doi.org/10.1920/wp.ifs.2000.0011).
 
 
+[Here](https://stb.virtual-worlds.scot/bc-full.html) is a live example of this algorithm in action.
+
 ## Usage
 
 Define a function that returns the net income for some gross value - this could be (e.g.) hours worked, wage, or gross income, and some set of data (details of a person, tax paramters, etc):
