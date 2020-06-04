@@ -4,7 +4,7 @@ This package can be used to generate a complete two-dimensional budget constrain
 (person, benefit-unit, household, etc.) for some tax-benefit system. That is, a
 list points describing the combinations of net income that the unit would get for different values of gross income (or hours worked, wages, etc.).
 
-[Here](https://stb.virtual-worlds.scot/bc-full.html) is a simple example of this alorithm in action.
+[Here](https://stb.virtual-worlds.scot/bc-full.html) is a live example of this algorithm in action.
 
 See:
 Duncan, Alan, and Graham Stark. [A Recursive Algorithm to Generate Piecewise Linear Budget Contraints, IFS Working Paper 2000/01 May 2, 2000] (https://doi.org/10.1920/wp.ifs.2000.0011).
