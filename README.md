@@ -2,7 +2,7 @@
 
 This package can be used to generate a complete two-dimensional budget constraint for some unit
 (person, benefit-unit, household, etc.) for some tax-benefit system. That is, a
-list points describing the combinations of net income that the unit would get for different values of gross income (or hours worked, wages, etc.).
+list points describing the combinations of net income that the unit would get for different values of gross income (or hours worked, wages, etc.). The package takes a user-defined calculator function, and identifies all the points of discontinuity to a high degree of accuracy, even if the system being modelled has large discontinuities (as is common in fiscal systems).
 
 [Here](https://stb.virtual-worlds.scot/bc-full.html) is a live example of this algorithm in action.
 
