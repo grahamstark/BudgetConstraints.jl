@@ -4,6 +4,7 @@ using Parameters
 
 export BCSettings, BudgetConstraint, annotate_bc, pointstoarray
 export makebc,Point2D, censor, pointstoarray, DEFAULT_SETTINGS
+export get_x_from_y
 
 """
 A piecewise_linear_generator. Used for generating budget constraints used in
@@ -34,8 +35,9 @@ const Line2D = Line2DG{Float64}
 A budget constraint is then just an ordered list
 of points.
 """
-const BudgetConstraint = Array{Point2DG,1}
-const PointsSet = Set{Point2DG}
+const BudgetConstraint = AbstractArray{Point2D,1}
+
+const PointsSet = Set{Point2D}
 
 const VERTICAL   = 9_999_999_999.9999;
 const TOLERANCE  = 0.0001;
@@ -77,6 +79,38 @@ function makeline( point_1 :: Point2D, point_2 :: Point2D )::Line2D
         a = ( point_1.y - point_1.x*b );
     end
     return Line2D( a, b );
+end
+
+"""
+A reverse lookup. E.g given some net income `y`
+what would the corresponding gross `x` have to have
+been?
+"""
+function get_x_from_y( bc :: BudgetConstraint, y :: Real ) :: Real
+    n = size(bc)[1]
+    ny = -99.0
+    @assert y < bc[n].y "you've given a y value > the top y in the bc of $(bc[n].y)"
+    @assert bc[1].x == 0.0 "should start with zero x"
+    for i in 2:n
+        println("i=$i")
+        if bc[i].y >= y
+            println("y=$y")
+            rb1 = Point2D( bc[i-1].y, bc[i-1].x ) # swap
+            rb2 = Point2D( bc[i].y, bc[i].x ) # swap
+            l = BudgetConstraints.makeline(rb1,rb2)
+            if l.a ≈ VERTICAL
+                # any point will do
+                println("vertical")
+                return y
+            else
+                d = y-bc[i-1].y
+                println("l.a = $(l.a) + l.b = $(l.b) d = $d")
+                return bc[i-1].x + l.b*d
+            end
+        end # found seg start
+    end # loop
+    @assert ny != -99.0 "no point for $y found in bc"
+    return ny
 end
 
 function findintersection( line_1::Line2D, line_2 :: Line2D ) :: Point2D
@@ -158,7 +192,7 @@ end
 
 
 function toarray( ps :: PointsSet ) :: BudgetConstraint
-    bc = BudgetConstraint();
+    bc = Array{Point2D,1}(undef,0)
     for p in ps
         push!( bc, p )
     end
@@ -256,7 +290,7 @@ Make a budget constraint using function `getnet` to extract net incomes and `set
 `getnet` should be a function of the form `net=f(data, gross)`. See the testcase for an example.
 """
 function makebc( data :: Dict, getnet::Function, settings :: BCSettings = DEFAULT_SETTINGS ) :: BudgetConstraint
-    bc = BudgetConstraint()
+    bc = Array{Point2D,1}(undef,0)
     ps = PointsSet()
     depth = 0
     depth = generate!( ps, data, getnet, depth, settings.mingross, settings.maxgross, settings )
