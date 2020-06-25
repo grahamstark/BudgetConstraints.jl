@@ -92,19 +92,15 @@ function get_x_from_y( bc :: BudgetConstraint, y :: Real ) :: Real
     @assert y < bc[n].y "you've given a y value > the top y in the bc of $(bc[n].y)"
     @assert bc[1].x == 0.0 "should start with zero x"
     for i in 2:n
-        println("i=$i")
         if bc[i].y >= y
-            println("y=$y")
             rb1 = Point2D( bc[i-1].y, bc[i-1].x ) # swap
             rb2 = Point2D( bc[i].y, bc[i].x ) # swap
             l = BudgetConstraints.makeline(rb1,rb2)
             if l.a ≈ VERTICAL
                 # any point will do
-                println("vertical")
                 return y
             else
                 d = y-bc[i-1].y
-                println("l.a = $(l.a) + l.b = $(l.b) d = $d")
                 return bc[i-1].x + l.b*d
             end
         end # found seg start
